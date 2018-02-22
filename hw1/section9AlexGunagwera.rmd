@@ -1,20 +1,22 @@
 ---
 title: "Section 9 Tutorial"
 author: "Alex Gunagwera"
-date: "22 Þubat 2018"
+date: "22 ?ubat 2018"
 output: html_document
 ---
-#Section 9 Start
+# Section 9 Tutorial
 ```{r}
 str(file)
 ```
 
+## Create a connection to 'foo.txt'
 ```{r}
  ## Create a connection to 'foo.txt'
 
 con <- file("foo.txt")
 ```
 
+## Open connection to 'foo.txt' in read-only mode
 ```{r}
 ## Open connection to 'foo.txt' in read-only mode
 open(con, "r")
@@ -25,13 +27,14 @@ open(con, "r")
 
 ```
 
+## Close the connection
 ```{r}
 
 ## Close the connection
 close(con)
 ```
 
-which is the same as
+### which is the same as
 ```{r}
 data <- read.csv("foo.txt")
 
