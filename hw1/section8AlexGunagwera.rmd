@@ -31,14 +31,14 @@ dump(c("x", "y"), file = "data.R")
  rm(x, y)
 ```
  
- ## Dump inverse is Source
+## Dump inverse is Source
 ```{r}
 source("data.R")
 str(y)
 x
 ```
 
-#8.2 Binary Formats
+# 8.2 Binary Formats
 ```{R}
 setwd('B:/Akad/B5/BigData')
 a <- data.frame(x = rnorm(100), y = runif(100))
