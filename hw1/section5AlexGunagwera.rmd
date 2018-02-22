@@ -1,10 +1,10 @@
 ---
 title: "Section 5 Tutorial"
 author: "Alex Gunagwera"
-date: "22 Þubat 2018"
+date: "22 ?ubat 2018"
 output: html_document
 
-#5.1 Entering Input
+# 5.1 Entering Input
 
 ```{r}
  x <- 1
@@ -13,7 +13,7 @@ x
  msg <- "hello"
 ```
  
-#5.2 Evaluation
+# 5.2 Evaluation
 ```{r}
 x <- 5 ## nothing printed
  x ## auto-printing occurs
@@ -22,7 +22,7 @@ x <- 5 ## nothing printed
 x <- 11:30
 x
 ```
-#5.6 Creating Vectors
+# 5.6 Creating Vectors
 
 ```{r}
 x <- c(0.5, 0.6) ## numeric
@@ -35,14 +35,14 @@ x <- vector("numeric", length = 10)
 x
 ```
 
-#5.7 Mixing Objects
+# 5.7 Mixing Objects
 ```{r}
 y <- c(1.7, "a") ## character
 y <- c(TRUE, 2) ## numeric
 y <- c("a", TRUE) ## character
 ```
 
-#5.8 Explicit Coercion
+# 5.8 Explicit Coercion
 ```{r}
 x <- 0:6
 class(x)
@@ -64,7 +64,7 @@ as.logical(x)
 as.complex(x)
 
 ```
-#5.9 Matrices
+# 5.9 Matrices
 
 ```{r}
 m <- matrix(nrow = 2, ncol = 3)
@@ -101,7 +101,7 @@ cbind(x, y)
 rbind(x, y)
 
 ```
-#5.10 Lists
+# 5.10 Lists
 ```{r}
 x <- list(1, "a", TRUE, 1 + 4i)
 x
@@ -114,7 +114,7 @@ x
 ```
 
 
-#5.11 Factors
+# 5.11 Factors
 ```{r}
 x <- factor(c("yes", "yes", "no", "yes", "no"))
 x
@@ -129,7 +129,7 @@ table(x)
 unclass(x)
 
 ```
-#5.12 Missing Values
+# 5.12 Missing Values
 ```{r}
 ## Create a vector with NAs in it
 x <- c(1, 2, NA, 10, 3)
@@ -156,7 +156,7 @@ is.nan(x)
 ```
 
 
-#5.13 Data Frames
+# 5.13 Data Frames
 ```{r}
 x <- data.frame(foo = 1:4, bar = c(T, T, F, F))
 x
@@ -175,8 +175,7 @@ ncol(x)
 
 ```
 
-
-#5.14 Names
+# 5.14 Names
 ```{r}
 x <- 1:3
 names(x)
@@ -192,7 +191,7 @@ names(x)
 
 ```
 
-Lists can also have names, which is often very useful.
+## Lists can also have names, which is often very useful.
 ```{r}
 x <- list("Los Angeles" = 1, Boston = 2, London = 3)
 x
@@ -204,11 +203,7 @@ x
 names(x)
 ```
 
-Matrices can have both column and row names.
-
-
-
-
+## Matrices can have both column and row names.
 ```{r}
 m <- matrix(1:4, nrow = 2, ncol = 2)
 dimnames(m) <- list(c("a", "b"), c("c", "d"))
@@ -216,8 +211,7 @@ m
 
 ```
 
-Column names and row names can be set separately using the colnames() and rownames()functions.
-
+## Column names and row names can be set separately using the colnames() and  rownames()functions.
 ```{r}
 colnames(m) <- c("h", "f")
 rownames(m) <- c("x", "z")
