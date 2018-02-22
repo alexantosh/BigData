@@ -1,11 +1,11 @@
 ---
 title: "Section 8 Tutorial"
 author: "Alex Gunagwera"
-date: "22 Þubat 2018"
+date: "22 ?ubat 2018"
 output: html_document
 ---
 
-#Create a data frame
+# Create a data frame
 ```{r}
 
 y <- data.frame(a = 1, b = "a")
