@@ -1,0 +1,29 @@
+---
+title: "Section 7 Tutorial"
+author: "Alex Gunagwera"
+date: "22 Þubat 2018"
+output: html_document
+---
+#7. Using the readr Package
+```{r}
+setwd('C:/Program Files/R')
+library(readr)
+teams <- read_csv("C:/Program Files/R/team_standings.csv")
+```
+
+```{r}
+teams
+```
+
+```{r}
+teams <- read_csv("C:/Program Files/R/team_standings.csv",col_types="cc")
+```
+ 
+ 
+```{r}
+logs <- read_csv("C:/Program Files/R/team_standings.csv", n_max = 10)
+
+```
+ 
+ 
+ 

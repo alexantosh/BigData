@@ -1,0 +1,23 @@
+---
+title: "Section 6 Tutorial"
+author: "Alex Gunagwera"
+date: "22 Þubat 2018"
+output: html_document
+---
+
+#Use read.table for moderately sized datasets
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+
+data <- read.table("foo.txt")
+
+```
+
+#Setting rows doesnt make R run faster but helps with memory management/usage
+```{r}
+    initial <- read.table("datatable.txt", nrows = 100)
+    classes <- sapply(initial, class)
+    tabAll <- read.table("datatable.txt", colClasses = classes)
+```
+
+

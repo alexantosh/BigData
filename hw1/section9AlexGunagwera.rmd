@@ -1,0 +1,39 @@
+---
+title: "Section 9 Tutorial"
+author: "Alex Gunagwera"
+date: "22 Þubat 2018"
+output: html_document
+---
+#Section 9 Start
+```{r}
+str(file)
+```
+
+```{r}
+ ## Create a connection to 'foo.txt'
+
+con <- file("foo.txt")
+```
+
+```{r}
+## Open connection to 'foo.txt' in read-only mode
+open(con, "r")
+```
+```{r}
+## Read from the connection
+ data <- read.csv(con)
+
+```
+
+```{r}
+
+## Close the connection
+close(con)
+```
+
+which is the same as
+```{r}
+data <- read.csv("foo.txt")
+
+```
+

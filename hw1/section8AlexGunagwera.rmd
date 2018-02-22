@@ -1,0 +1,64 @@
+---
+title: "Section 8 Tutorial"
+author: "Alex Gunagwera"
+date: "22 Þubat 2018"
+output: html_document
+---
+
+#Create a data frame
+```{r}
+
+y <- data.frame(a = 1, b = "a")
+```
+## Print 'dput' output to console
+
+```{r}
+ dput(y)
+```
+
+```{r}
+## Send 'dput' output to a file
+ dput(y, file = "y.R")
+new.y <- dget("y.R")
+new.y
+```
+
+## Disperse multiple objects at once using the dump function
+```{r}
+x <- "foo"
+y <- data.frame(a = 1L, b = "a")
+dump(c("x", "y"), file = "data.R")
+ rm(x, y)
+```
+ 
+ ## Dump inverse is Source
+```{r}
+source("data.R")
+str(y)
+x
+```
+
+#8.2 Binary Formats
+```{R}
+setwd('B:/Akad/B5/BigData')
+a <- data.frame(x = rnorm(100), y = runif(100))
+b <- c(3, 4.4, 1 / 3)
+
+## Save 'a' and 'b' to a file
+save(a, b, file = "mydata.rda")
+
+## Load 'a' and 'b' into your workspace
+load("mydata.rda")
+
+## Save everything to a file
+save.image(file = "mydata.RData")
+
+## load all objects in this file
+load("mydata.RData")
+
+##Using Textual and Binary Formats
+x <- list(1, 2, 3)
+ serialize(x, NULL)
+```
+
+
