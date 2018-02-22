@@ -1,20 +1,21 @@
 ---
 title: "Section 7 Tutorial"
 author: "Alex Gunagwera"
-date: "22 Þubat 2018"
+date: "22 ?ubat 2018"
 output: html_document
 ---
-#7. Using the readr Package
+# 7.Using the readr Package
 ```{r}
 setwd('C:/Program Files/R')
 library(readr)
 teams <- read_csv("C:/Program Files/R/team_standings.csv")
 ```
-
+## For some reason most of the team file operations were unsuccesful due to missing files so I used my own. But for consistency I will post the original
 ```{r}
 teams
 ```
 
+### This File was not found - useda different one
 ```{r}
 teams <- read_csv("C:/Program Files/R/team_standings.csv",col_types="cc")
 ```
