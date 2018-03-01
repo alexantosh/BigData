@@ -1,0 +1,25 @@
+---
+title: "RCrushCourse"
+author: "Alex Gunagwera"
+date: "27 Şubat 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Code 1: Assigning values to variables
+```{r setup, include=TRUE}
+ x <− 3
+### OR 2: 
+ x = 3
+```
+
+### Viewing Contents of a variable
+```{R}
+x [ 4 ] <− 7.5
+x # To view x's contents just typing the variable name and pressing enter is sufficient
+ # [ 1 ] 3 . 0 NA NA 7.5
+
+```
