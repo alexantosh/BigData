@@ -9,17 +9,980 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Code 1: Assigning values to variables
-```{r setup, include=TRUE}
- x <− 3
+# Code 1: Assigning values to variables
+```{r}
+x <- 3
 ### OR 2: 
- x = 3
+x = 3
 ```
+
 
 ### Viewing Contents of a variable
-```{R}
-x [ 4 ] <− 7.5
-x # To view x's contents just typing the variable name and pressing enter is sufficient
- # [ 1 ] 3 . 0 NA NA 7.5
+```{r}
 
+x [4] <- 7.5
+x # To view x's contents just typing the variable name and pressing enter is sufficient
+# [1] 3 . 0 NA NA 7.5
 ```
+
+## Creating a sequence of integers
+```{r}
+ x <- 1 : 8 # creates a sequence of integers and stores them in x
+ x
+ # [1] 1 2 3 4 5 6 7 8
+ y <- 15:11 # similarly a decreasing sequence
+ y
+ # [1] 15 14 13 12 11
+ 
+ y = x+3 #adds 3 to each element of x and stores resultant vector in y
+ y # [1] 4 5 6 7 8 9 10 11
+``` 
+ 
+## Adding vectors of different length
+```{r}
+ x = 1 : 8
+ y = 1 : 4
+ x
+ # [1] 1 2 3 4 5 6 7 8
+ y
+ # [ 1 ] 1 2 3 4
+ x+y # we can view the sum without using a different variable, it just sums corresponding elements of the vectors
+ # [ 1 ] 2 4 6 8 6 8 10 12
+ 
+ x = 1 : 8
+ y = 1 : 3
+ x+y
+ # [ 1 ] 2 4 6 5 7 9 8 10
+ # we get a warning message 
+ # In x + y : longer object length is not a multiple of shorter object length
+ ```
+ 
+### The Combine Function
+```{r}
+ x = c ( 4 , 8 , 15 , 16 , 23 , 42 ) # the c(.) function combines values
+ y = c (501 ,505 ,578 ,586)
+ x
+ # [1] 4 8 15 16 23 42
+ y
+ # [ 1 ] 501 505 578 586
+ z = c (x , y ) #we can combine two vectors and store the resultant vector in a different variable
+ z #[1]   4   8  15  16  23  42 501 505 578 586
+ 
+ length ( z ) # Length of the created vector
+ # [ 1 ] 10
+ m=c( 1 , 5 , 1 , 4 , 7 , 4 , 1 )
+ unique (m) # unique elements of the vector m
+ # [ 1 ] 1 5 4 7
+  table(m) # Counts elements in the created vector i.e. three 1s, Two 4s ...
+  # m
+  # 1 4 5 7
+  # 3 2 1 1
+  
+  z = rev ( z ) # reverse z
+  z
+  # [ 1 ] 586 578 505 501 42 23 16 15 8 4
+```  
+  
+### The Repeat function rep(,)
+```{r}
+  x = rep ( 5 , 10 ) # repeat 5 10 times
+  x
+  # [ 1 ] 5 5 5 5 5 5 5 5 5 5
+  y = c ( 3 , 5 , 7 ) # y vekt ö rü
+  z = rep (y , 4 ) # repeat vector y 4 times
+  z
+  # [1] 3 5 7 3 5 7 3 5 7 3 5 7
+  rep (y , c ( 2 , 3 , 5 ) ) # repeat each of y's elements the number of specified times
+  # [ 1 ] 3 3 5 5 5 7 7 7 7 7
+  
+  x = seq(2,3, length.out=21) # create a sequence of length specified by the out parameter between the given values i.e. 2 and 3
+  # [ 1 ] 2.00 2.05 2.10 2.15 2.20 2.25 2.30 2.35 2.40 2.45 2.50
+  # [ 1 2 ] 2.55 2.60 2.65 2.70 2.75 2.80 2.85 2.90 2.95 3.00
+  x
+  
+  x = seq ( 2 , 3 , by=0.05) # increments of .05
+  x
+  # [ 1 ] 2.00 2.05 2.10 2.15 2.20 2.25 2.30 2.35 2.40 2.45 2.50
+  
+  x = seq ( 2 , 300 , by=10) # increments of 10
+  x
+  #  [1]   2  12  22  32  42  52  62  72  82  92 102 112 122 132 142 152 162 172 182 192 202 212 222 232 242 252 262 272 282 292
+```  
+  
+# Logic Expression
+```{r}
+  x <- 10:20
+  x
+  # [ 1 ] 10 11 12 13 14 15 16 17 18 19 20
+  x<17 # x ' s values less than 17
+  # [ 1 ] TRUE TRUE TRUE TRUE TRUE TRUE TRUE FALSE FALSE FALSE FALSE
+  x<=17 # x ' s values less than or equal to 17
+  # [ 1 ] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE FALSE FALSE FALSE
+  x>14 # you get the idea
+  # [ 1 ] FALSE FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE
+   x>=14 # 
+  # [ 1 ] FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+  x==16 # x ' in hangi de§ e r l e r i 16ya e ³ i t t i r
+  # [ 1 ] FALSE FALSE FALSE FALSE FALSE FALSE TRUE FALSE FALSE FALSE FALSE
+  x !=16 #
+  # [ 1 ] TRUE TRUE TRUE TRUE TRUE TRUE FALSE TRUE TRUE TRUE TRUE
+  (x<=16) & (x>=12) # x ' in hangi de§ e r l e r i 16dan küçük e ³ i t ve 12den büyük e ³ i t t i r
+  # [ 1 ] FALSE FALSE TRUE TRUE TRUE TRUE TRUE FALSE FALSE FALSE FALSE
+  (x<=11) | (x>=18) # x ' in hangi de§ e r l e r i 11den küçük e ³ i t veya 18den büyük e ³ i t t i r
+  # [ 1 ] TRUE TRUE FALSE FALSE FALSE FALSE FALSE FALSE TRUE TRUE TRUE
+  
+  
+  ind=which (x<17) #find indices in x which satisfy the condition
+  ind #[1] 1 2 3 4 5 6 7
+  
+  ind2=which ( x==16) #x ' in hangi i n d e k s t e k i de§ e r i 16ya e ³ i t t i r
+  ind2
+  # [ 1 ] 7
+  v1=90:120 #v1 ' in hangi el emanla r  v2 i ç ind e ge ç e r
+  v2=10:100
+  v1
+  v2
+  ind3=which ( v1 %in% v2 ) #indices of v1 elements in v2
+  ind3
+   # [ 1 ] 1 2 3 4 5 6 7 8 9 10 11 # v1 ' in i l k 11 eleman  v2 i l e o rtak
+  
+  x <- 1:20
+  y <- (x>=8) * ( x )
+  x
+  y
+  # [1] 0 0 0 0 0 0 0 8 9 10 11 12 13 14 15 16 17 18 19 20
+  
+  siparisMiktari = 30:50
+  birimMaliyet = 7 *  siparisMiktari * ( siparisMiktari < 40 ) + 6.5 * siparisMiktari #* ( units >= 40)
+  birimMaliyet
+  # [ 1 ] 210.0 217.0 224.0 231.0 238.0 245.0 252.0 259.0
+  # [ 9 ] 266.0 273.0 260.0 266.5 273.0 279.5 286.0 292.5
+  #[ 1 7 ] 299.0 305.5 312.0 318.5 325.0
+  
+  sabitMaliyet = 50 * ( siparisMiktari <=45) + 15 * ( siparisMiktari > 45 )
+  sabitMaliyet
+  # [ 1 ] 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 15
+  #[ 1 8 ] 15 15 15 15
+  
+  toplamMaliyet <- sabitMaliyet + birimMaliyet
+  toplamMaliyet
+  # [ 1 ] 260.0 267.0 274.0 281.0 288.0 295.0 302.0 309.0
+  # [ 9 ] 316.0 323.0 310.0 316.5 323.0 329.5 336.0 342.5
+  #[ 1 7 ] 314.0 320.5 327.0 333.5 340.0
+  
+  siparisMiktari[ toplamMaliyet <=318]
+  #318TL' den daha dusuk maliy et e sahip olan s i p a r i s m i k t a r l a r i n i g o s t e r i r
+  
+  # [ 1 ] 30 31 32 33 34 35 36 37 38 40 41 46
+  toplamMaliyet [ toplamMaliyet <=318]
+  #318TL' den daha dusuk maliy et e sahip olan s i p a r i s m a l i y e t l e r i n i g o s t e r i r
+  # [ 1 ] 260.0 267.0 274.0 281.0 288.0 295.0 302.0 309.0
+  # [ 9 ] 316.0 310.0 316.5 314.0
+  
+  x = seq ( 5 , 8 , by =0.3) # 11 elemanl  b i r vekt ö r olu ³ tu ruyo ruz
+  x
+  # [ 1 ] 5 . 0 5 . 3 5 . 6 5 . 9 6 . 2 6 . 5 6 . 8 7 . 1 7 . 4 7 . 7 8 . 0
+  length( x )
+  # [ 1 ] 11
+  y1 = x[ 3 : 7 ] # 3üncü eleman  ndan 7 i n c i elemana kadar olan k  sm  n  a l  yoruz
+  y1
+  # [ 1 ] 5 . 6 5 . 9 6 . 2 6 . 5 6 . 8
+  y2 <- x [ 2 * ( 1 : 5 ) ] # ç i f t say  s  r a s  ndaki el emanla r  a l  yoruz 2 i n c i , 4üncü g i b i
+  y2
+  # [ 1 ] 5 . 3 5 . 9 6 . 5 7 . 1 7 . 7
+  y3 <- x [ -1] # i l k eleman  ç  kar  p g e r i kalan  a l  yoruz
+  y3
+  # [ 1 ] 5 . 3 5 . 6 5 . 9 6 . 2 6 . 5 6 . 8 7 . 1 7 . 4 7 . 7 8 . 0
+  y4 <- x[- length ( x ) ] # son eleman  ç  kar  p g e r i kalan  a l  yoruz
+  y4
+  # [ 1 ] 5 . 0 5 . 3 5 . 6 5 . 9 6 . 2 6 . 5 6 . 8 7 . 1 7 . 4 7 . 7
+
+  y5 <- x[ -seq ( 1 , 11 , 3 ) ] # b e l i r t i l e n el emanla r  ç  kar  p g e r i kalan  a l  yoruz
+  y5
+  # [ 1 ] 5 . 3 5 . 6 6 . 2 6 . 5 7 . 1 7 . 4 8 . 0
+
+  y6 <- x [ c ( 1 , 3 , 7 ) ] # sad e c e b i r i n c i , ü ç üncü ve y e d i n c i el emanla r  a l  yoruz
+  y6
+  # [ 1 ] 5 . 0 5 . 6 6 . 8
+  
+  y7 <- x [ seq ( 1 , 11 , 3 ) ] # sad e c e b e l i r t i l e n el emanla r  a l  yoruz
+  y7
+  # [ 1 ] 5 . 0 5 . 9 6 . 8 7 . 7
+```
+  
+# Matrices
+```{r}
+  x <- 1 : 5
+  y <- t( x ) # t() --> transpose
+  y
+  t(y)# == t(t(x))
+  # [ , 1 ] [ , 2 ] [ , 3 ] [ , 4 ] [ , 5 ]
+  # [ 1 , ] 1 2 3 4 5
+  t(t(x)) 
+  
+  # > t(y)
+  # [,1]
+  # [1,]    1
+  # [2,]    2
+  # [3,]    3
+  # [4,]    4
+  # [5,]    5
+  # > t(t(x))
+  # [,1]
+  # [1,]    1
+  # [2,]    2
+  # [3,]    3
+  # [4,]    4
+  # [5,]    5
+  
+  vec <- 1:12
+  x <- matrix ( vec , nrow=3, ncol=4)
+  x #rakamlar  n s  r a s  na dikkat
+  # [ , 1 ] [ , 2 ] [ , 3 ] [ , 4 ]
+  # [ 1 , ] 1 4 7 10
+  # [ 2 , ] 2 5 8 11
+  # [ 3 , ] 3 6 9 12
+
+  t( x ) #döndürülmü³ü
+  # [ , 1 ] [ , 2 ] [ , 3 ]
+  # [ 1 , ] 1 2 3
+  # [ 2 , ] 4 5 6
+  # [ 3 , ] 7 8 9
+  # [ 4 , ] 10 11 12
+  vec <- 1:12
+  x <- matrix ( vec , nrow=3, ncol =4,byrow=TRUE)
+  x
+  # [,1] [,2] [,3] [,4]
+  # [1,]    1    2    3    4
+  # [2,]    5    6    7    8
+  # [3,]    9   10   11   12
+  
+  x <- matrix ( c (1 ,2 , -1 ,1 ,2 ,1 ,2 , -2 , -1) , nrow=3, ncol =3)
+  x
+  # [,1] [,2] [,3]
+  # [1,]    1    1    2
+  # [2,]    2    2   -2
+  # [3,]   -1    1   -1
+ 
+  xinv <- solve( x ) #use the solve function to get the inverse of an nxn matrix
+  xinv
+  #           [,1]        [,2] [,3]
+  # [1,] 0.0000000  0.25000000 -0.5
+  # [2,] 0.3333333  0.08333333  0.5
+  # [3,] 0.3333333 -0.16666667  0.0
+  
+  x <- matrix ( 0 , nrow=4, ncol =4)
+  x
+  #       [,1] [,2] [,3] [,4]
+  # [1,]    1    0    0    0
+  # [2,]    0    1    0    0
+  # [3,]    0    0    1    0
+  # [4,]    0    0    0    1
+  
+  
+  diag ( x ) <- 1 # mat ri s kö ³ eg enin bütün de§ e r l e r i n i 1 yapar
+  x
+  #       [,1] [,2] [,3] [,4]
+  # [1,]    1    0    0    0
+  # [2,]    0    1    0    0
+  # [3,]    0    0    1    0
+  # [4,]    0    0    0    1
+  
+  x <- matrix ( 0 , ncol =5,nrow=4)
+  ncol ( x )
+  # [ 1 ] 5
+  nrow ( x )
+  # [ 1 ] 4
+  length ( x )
+  # [ 1 ] 20
+  dim ( x )
+  # [ 1 ] 4 5
+  
+  x <- 2 * ( 1 : 5 )
+  x
+  # [ 1 ] 2 4 6 8 10
+  y <- 1 : 5
+  y
+  # [ 1 ] 1 2 3 4 5
+  x+y
+  # [ 1 ] 3 6 9 12 15
+  x * y
+  # [ 1 ] 2 8 18 32 50
+  x / y
+  # [ 1 ] 2 2 2 2 2
+  x-y
+  # [ 1 ] 1 2 3 4 5
+  x^2 # ü s l ü say  i ³ l emi
+  # [ 1 ] 4 16 36 64 100
+  x^y
+  # [ 1 ] 2 16 216 4096 100000
+  x%%3 # mod( 3 ) i l e kalan hesab 
+  # [ 1 ] 2 1 0 2 1
+  
+  y <- 3 : 7
+  y
+
+  x%%y # i k i vekt ö rde de he r eleman i ç in kalan i ³ l emi
+
+  x%/%y # bölme i ³ l eminin tam say  k  sm 
+  # [ 1 ] 0 1 1 1 1
+  
+  
+  x <- c ( 3 , 1 , 6 , 5 , 8 , 10 , 9 , 12 , 3 )
+  min ( x )
+  # [ 1 ] 1
+  max( x )
+  # [ 1 ] 12
+  
+  sum( x )
+  
+  prod ( x )
+  # [ 1 ] 2332800
+  
+  x = 1:10
+  y = 10:1
+  z <- c ( 3 , 2 , 1 , 6 , 5 , 4 , 10 , 9 , 8 , 7 )
+  
+  a <- pmax(x , y , z ) # i s t e d i § imi z say  da vekt ö r y a z a b i l i r i z
+  a
+  # [ 1 ] 10 9 8 7 6 6 10 9 9 10
+  
+  b <- pmin (x , y , z )
+  b
+  # [1] 1 2 1 4 5 4 4 3 2 1
+  
+  veri=c( 5 , 32 , 6 , 11 , 43 , 11 , 4 , 3 , 2 , 8 )
+  
+  #So rt b i z e gü z e l b i r s  r a l  l i s t e v e r i r
+  sort ( veri )
+  # [ 1 ] 2 3 4 5 6 8 11 11 32 43
+
+  #Order b i z e s  ralaman  n hü c r e numaralar  n  ( ind ek s ) v e r i r
+  order ( veri )
+  # [ 1 ] 9 8 7 1 3 10 4 6 2 5
+
+  #Yani en küçük rakam 9uncu hü c r e olan 2 , di § e r i 8 . hü c r e olan 3 ve devam ed e r
+  #V e r i y i s  raya sokmak i ç in yap  la cak i ³ b a s i t .
+  
+  veri [ order ( veri ) ]
+  
+  order ( veri , decreasing=TRUE)
+  #[ 1 ] 5 2 4 6 10 3 1 7 8 9
+  
+  #Rank komutu i s e o hü c r en in kaç  nc  s  rada oldu §unu s ö y l e r .
+  rank ( veri )
+  #[ 1 ] 4 . 0 9 . 0 5 . 0 7 . 5 10.0 7 . 5 3 . 0 2 . 0 1 . 0 6 . 0
+
+  rank ( veri , ties.method="first" )
+   #[ 1 ] 4 9 5 7 10 8 3 2 1 6
+  
+   #Random bu i ³ i r a s t g e l e yapar .
+   rank( veri , ties.method="random" )
+   #[ 1 ] 4 9 5 7 10 8 3 2 1 6
+   rank( veri , ties.method="random" )
+   # [ 1 ] 4 9 5 8 10 7 3 2 1 6
+  
+   #Max en yük sek s  ralamay  v e r i r .
+  rank ( veri , ties.method="max" )
+  # [ 1 ] 4 9 5 8 10 8 3 2 1 6
+  
+  #Min en dusuk si ralamay  v e r i r .
+  rank ( veri , ties.method="min" )
+   # [ 1 ] 4 9 5 7 10 7 3 2 1 6
+  
+  #Average i s e i l k ba ³ t a k i 7 . 5 lu vekt ö rün ayn  s  n  v e r i r .
+  rank ( veri, ties.method="average" )
+  # [ 1 ] 4 . 0 9 . 0 5 . 0 7 . 5 10.0 7 . 5 3 . 0 2 . 0 1 . 0 6 . 0
+
+  #rankt e o rde rda olan büyükten küçü§e s  ralama pa ram et r e si yoktu r .
+  #Onu da ufak b i r numara i l e y ap ab i l i y o ru z : )
+  rank(-veri )
+  # [ 1 ] 7 . 0 2 . 0 6 . 0 3 . 5 1 . 0 3 . 5 8 . 0 9 . 0 10.0 5 . 0
+  
+  x = matrix ( 1 : 6 , ncol =2,nrow=3)
+  x
+   # [ , 1 ] [ , 2 ]
+   # [ 1 , ] 1 4
+   # [ 2 , ] 2 5
+   # [ 3 , ] 3 6
+  
+  y = matrix ( 1 : 4 , ncol =2,nrow=2)
+  y
+   # [ , 1 ] [ , 2 ]
+   # [ 1 , ] 1 3
+   # [ 2 , ] 2 4
+  
+   x%∗%y
+   # [ , 1 ] [ , 2 ]
+   # [ 1 , ] 9 19
+   # [ 2 , ] 12 26
+   # [ 3 , ] 15 33
+  
+   y%∗%x
+   # Hata olu ³ tu y %∗% x : uygun olmayan a rgümanlar || Error in y %*% x : non-conformable arguments
+ y%∗%t ( x ) 
+ 
+ x <- 1 : 3
+ y <- 3 : 1
+ 
+ x%∗%y # R b i r dü zeltme yaparak i l k vekt ö rü yatay hal e g e t i r i y o r
+  # [ , 1 ]
+  # [ 1 , ] 10
+  
+ t( x )%∗%y # yukar  daki ö rnek i l e ayn  sonucu v e r i y o r
+# [ , 1 ]
+  # [ 1 , ] 10
+ 
+ 
+  t( x )%*%t( y )
+  # Hata olu ³ tu t ( x ) %∗% t ( y ) : uygun olmayan a rgümanlar
+ 
+ x%*%t ( y ) # bu a l t e r n a t i f de b i r mxn m a t r i s i olu ³ tu ru r
+  # [ , 1 ] [ , 2 ] [ , 3 ]
+  # [ 1 , ] 3 2 1
+  # [ 2 , ] 6 4 2
+  # [ 3 , ] 9 6 3
+ 
+ x <- c ( 1 , 4 , 5 , 6 , 2 , 12 )
+ y <- cumsum( x )
+ y
+ # [ 1 ] 1 5 10 16 18 30
+ # cumsum i l e he r hü c r e k endi sind en ö n c eki hü c r e l e r i n toplam  n  kendi de§ e r i n e
+ #e k l e r
+ 
+ z <- cumprod ( x )
+ z
+ # [ 1 ] 1 4 20 120 240 2880
+ # cumprod i l e he r hü c r e k endi sind en ö n c eki hü c r e l e r i n ç arp m n  kendi de§ e r i y l e ç
+ #a rpa r
+ 
+ diff( x )
+ # [ 1 ] 3 1 1 −4 10
+ 
+ factorial(3)
+ # [ 1 ] 6
+ factorial ( 1 : 6 )
+ # [ 1 ] 1 2 6 24 120 720
+ 
+ abs(-4)
+  # [ 1 ] 4
+ abs ( c ( -3:3) )
+ # [ 1 ] 3 2 1 0 1 2 3
+ 
+ sqrt( 4 )
+ # [ 1 ] 2
+ sqrt( 1 : 9 )
+ # [ 1 ] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751 2.828427
+# [ 9 ] 3.000000
+ 
+ log(100) # do§ a l loga ritma
+ # [ 1 ] 4.60517
+ log10 (100) # taban  10 olan loga ritma
+  # [ 1 ] 2
+ log2(100) # taban  2 olan loga ritma
+ # [ 1 ] 6.643856
+ log ( 100 , 5) # taban  5 olan loga ritma
+  # [ 1 ] 2.861353
+  log( c( 10 , 20 , 30 , 40) )
+  # [ 1 ] 2.302585 2.995732 3.401197 3.688879
+ 
+  exp ( 4.60517) # yakla ³  k o l a r ak 100 de§ e r i n i v e rm eli
+  # [ 1 ] 99.99998
+  exp ( log(100) ) # yuvarlama h a t a l a r  olmadan
+  # [ 1 ] 100
+  exp ( seq ( -2 ,2,0.4) )
+  # [ 1 ] 0.1353353 0.2018965 0.3011942 0.4493290 0.6703200 1.0000000 1.4918247
+  # [ 8 ] 2.2255409 3.3201169 4.9530324 7.3890561
+ 
+  gamma( 5 ) # f a c t o r i a l ( 4 ) i l e ayn  olmal 
+  # [ 1 ] 24
+  gamma( 5.5 ) # f a c t o r i a l ( 4 . 5 ) i l e ayn  olmal 
+  # [ 1 ] 52.34278
+ 
+  x <- c ( -3 , -3.5 ,4 ,4.2)
+  floor( x )
+  # [ 1 ] −3 −4 4 4
+  ceiling( x )
+  # [ 1 ] −3 −3 4 5
+  as.integer( x )
+  # [ 1 ] −3 −3 4 4
+  
+  dnorm ( 0.5 ) # o rtalama ve st anda rt sapma p a r a m e t r e l e r i tan  mlanmazsa
+  # R st and a rt normal da§  l m ku l l an  r
+  # [ 1 ] 0.3520653
+  dnorm ( 0 , 2 , 1 )
+  # [ 1 ] 0.05399097
+  dnorm ( 3 , 3 , 5 )
+  # [ 1 ] 0.07978846
+  
+  pnorm ( 0 ) # e§ r i n i n a l t  nda kalan alan
+  # standart normal da§  l  mda "0" s olund aki kalan alan
+  # [ 1 ] 0 . 5
+  pnorm ( 2 )
+  # [ 1 ] 0.9772499
+  pnorm ( 5 , 3 , 1 )
+  # [ 1 ] 0.9772499
+  
+  # Ön c eki "pnorm ( ) " f o n k s i y o n l a r  n  n t e r s i i ³ l emi yapma ( q u a n t i l e )
+  qnorm( 0.5 )
+  # [ 1 ] 0
+  qnorm ( 0.9772499)
+  # [ 1 ] 2.000001
+  qnorm ( 0.9772499, 3, 1 )
+  # [ 1 ] 5.000001
+  
+  rnorm ( 20 , 2 , 1 ) # o rtalama s  2 standa rt sapmas  1 olan
+  # normal da§  l  mdan 20 tane r a s t g e l e say 
+  # [ 1 ] 2.31502453 0.37445729 2.04994863 1.89381118 0.63099383 1.50837615
+  # [ 7 ] 0.57363369 2.84601422 2.54003868 3.43652548 0.88941281 3.36373629
+  # [ 1 3 ] 0.58945290 2.44678124 −0.05360271 2.73920472 2.73643684 1.79465998
+  # [ 1 9 ] 1.30906099 2.18648566
+  
+  x <- rnorm (1000000 ,5 ,2) # x o rtalama s  5 , st and a rt sapmas  2 olan normal da§  l 
+  mdan
+  # g e l en 1000000 r a s t g e l e say  dan olu ³ an b i r d i z i d i r .
+  
+  mean( x )
+  # [ 1 ] 4.997776
+  sd ( x )
+  # [ 1 ] 2.000817
+  
+  var ( x )
+  # [ 1 ] 4.003268
+  median ( x )
+  # [ 1 ] 4.997408
+  summary( x )
+  # Min . 1 s t Qu. Median Mean 3 rd Qu. Max.
+  # −4.904 3.650 4.997 4.998 6.346 14.420
+  summary(x , digits=6)
+  # Min . 1 s t Qu. Median Mean 3 rd Qu. Max.
+  # −4.90360 3.65020 4.99741 4.99778 6.34564 14.42310
+  quantile( x ) # bu f onk siy on ç e y r e k l i k d i l i m l e r hakk  nda da b i l g i v e r i r
+  # 0% 25% 50% 75% 100%
+  # −4.903599 3.650201 4.997408 6.345639 14.423129
+  
+  # ç e y r e k l i k d i l i m l e r i a ³ a§  daki g i b i de e ld e e d e b i l i r i z .
+  sort( x ) [1000000 * 0.25 ]
+  # [ 1 ] 3.650189
+  sort ( x ) [1000000 * 0.5 ]
+  # [ 1 ] 4.997408
+  sort ( x ) [1000000 * 0.75 ]
+  # [ 1 ] 6.345639
+```
+  
+# Function and Loop Declarations in R
+```{r}
+  # f <− function( p1 , p2 , . . . . ) # f onk siy on i s m i n i ve g i r d i l e r i n i
+  # ( a rgüman veya parametre de d en i r ) b e l i r l e
+  # {
+  # g i r d i l e r i ( a rgümanlar  ) ve di § e r a ra ç l a r  kull an a r ak h e s ap l a r  yap
+  # g e r e k l i y s e de§ e r l e r i ekrana bas
+  # g e r e k l i y s e gö r s e l l e r olu ³ tu r
+  # sonu ç de§ i ³ k en in i son s at  ra yaz ve f onk siy on bu de§ i ³ k eni dönsün
+  # }
+```  
+  
+### ÖRNEK 01
+```{r}
+  # Yar  çap  r olan b i r ç emberin ç e v r e s i n i ve d a i r e n in alan  n  he saplayan b ir f onk siy on
+  cevre_alan <- function ( r ) # yar  çap
+  {
+    cf <- 2 * pi * r # ç e v r e y i h e sapla r , pi R' da tan  ml  b i r s a b i t t i r .
+    a <- pi * r^2 # alan  h e s ap l a r
+    res <- c( cf , a ) # sonu ç l a r  b i r l e ³ t i r i r
+    names( res ) <- c( "çevre" , "alan" )
+    res
+  }
+  
+  ## Circumference
+  cevre_alan( 3 )  
+  # çevrealan
+  # 18.84956 28.27433
+  cevre_alan( 1 )
+  # çevrealan
+  # 6.283185 3.141593
+```
+  
+### ÖRNEK 02
+```{r}
+  # Kö ³ e k o o r d i n a t l a r  i k i boyutlu uzayda b e l i r l e n m i ³ üç g enin
+  # ç e v r e s i n i ve alan  n  he saplayan b i r f onk siy on
+  ucgen <- function (
+    a , # b i r i n c i kö ³ enin koo rdinat  (2 uzunlu §unda b i r d i z i olmal  (x , y ) )
+    b , # i k i n c i kö ³ enin koo rdinat  (2 uzunlu §unda b i r d i z i olmal  (x , y ) )
+    c # üçüncü kö ³ enin koo rdinat  (2 uzunlu §unda b i r d i z i olmal  (x , y ) )
+  ) {
+    if( length( a ) !=2 || length (b) !=2 || length ( c ) !=2) {
+      print ( "hata , en az b i r koo rdinat h at a l  ya da e k s i k g i r i l m i ³ " )
+    }
+    # ç ev r e h e saplan  r
+    ab <- sqrt( ( a[1] -b[1] ) ^2+(a[2] -b[2] )^2)
+    bc <- sqrt( ( c[1]-b[ 1 ] )^2+(c[2] -b[ 2 ] ) ^2)
+    ac <- sqrt ( ( a[1] - c[ 1 ] )^2+(a[2] - c[ 2 ] )^2)
+    pm <- ab+bc+ac
+    # alan h e saplan  r
+    trab <- abs( ( a[1]-b[ 1 ] ) * ( a[2]-b[ 2 ] ) )/2
+    trbc <- abs( ( c[1] -b[ 1 ] ) * ( c[2]-b[ 2 ] ) ) /2
+    trac <- abs( ( a[1] - c[ 1 ] ) * ( a[2] - c[ 2 ] ) )/2
+    
+    maxxy <- pmax( a , b , c )
+    minxy <- pmin ( a , b , c )
+    
+    sqa <- min (max( ( a[1] -minxy [ 1 ] ) * ( a [2] -minxy [ 2 ] ) , 0) ,max(( maxxy[1] -a[ 1 ] ) * (maxxy[2] - a[ 2 ]) , 0))
+    sqb <- min (max( ( b[1] -minxy [ 1 ] ) * (b[2] -minxy [ 2 ] ) , 0) ,max( ( maxxy[1] -b [ 1 ] ) * (maxxy[2] - b [ 2 ] ) , 0) )
+    sqc <- min (max( ( c [1] -minxy [ 1 ] ) * ( c [2] -minxy [ 2 ] ) , 0) ,max( ( maxxy[1] - c [ 1 ] ) * (maxxy[2] -c [ 2 ] ) , 0) )
+    area <- (maxxy[1] -minxy [ 1 ] ) * (maxxy[2] -minxy [ 2 ] )-trab-trbc-trac-sqa-sqb-sqc
+    
+    pm <- ( area !=0)*pm # i f a r ea =0, then th e r e i s no t r i a n g l e
+    
+    res <- c (pm, area )
+    names ( res ) <- c ( "çevre" , "alan" )
+    res
+  }
+  
+  coora <- c ( 23 , 18)
+  coorb <- c ( 13  , 34)
+  coorc <- c ( 50 , 5 )
+  ucgen ( coora , coorb , coorc )
+  # ç ev r e alan
+  # 95.84525 151.00000
+  
+  coora <- c ( 10 , 18)
+  coorb <- c ( 13 , 34)
+  coorc <- c ( 50 , 5 )
+  ucgen ( coora , coorb , coorc )
+  # ç ev r e alan
+  # 105.3489 339.5000
+  
+  coora <- c ( 3 , 5 )
+  coorb <- c ( 9 , 15 )
+  coorc <- c ( 6 , 10 )
+  ucgen( coora , coorb , coorc )
+  # ç ev r e alan
+  # 0 0
+```
+  
+### ÖRNEK 03
+```{r}
+  siparisMaliyetListesi <- function(
+    huc=7, # yük sek bi rim maliy et
+    luc=6.5 , # dü³ük bi rim maliy et
+    ucc=40, # dü³ük bi rim maliy ett en en az s i p a r i ³ miktar 
+    hfc=50, # yük sek s a b i t maliy et
+    lfc =15, # dü³ük s a b i t maliy et
+    fcc=45, # yük sek bi rim maliy ett en en ç ok s i p a r i ³ miktar 
+    tcub=318 # toplam maliy et i ç in en ü s t ( s  n  r l a y  c  ) s e v i y e
+  ) {
+    units <- 30:50
+    birimMaliyet <- huc * units * ( units<ucc )+luc * units * ( units>=ucc )
+    sabitMaliyet <- hfc * ( units<=fcc )+lfc * ( units>fcc )
+    toplamMaliyet <- sabitMaliyet+birimMaliyet
+    res <- toplamMaliyet [ toplamMaliyet<=tcub ]
+    names ( res ) <- units [ toplamMaliyet<=tcub ]
+    res
+  }
+  
+  siparisMaliyetListesi( ) # ö n c eki de§ e r l e r i l e ayn  sonucu v e r i r
+  # 30 31 32 33 34 35 36 37 38 40 41 46
+  # 260.0 267.0 274.0 281.0 288.0 295.0 302.0 309.0 316.0 310.0 316.5 314.0
+  
+  siparisMaliyetListesi ( hfc=55, luc=6.3) # i k i a rgüman  n de§ e r i n i de§ i ³ t i r e l i m
+  # 30 31 32 33 34 35 36 37 40 41 46 47 48
+  # 265.0 272.0 279.0 286.0 293.0 300.0 307.0 314.0 307.0 313.3 304.8 311.1 317.4
+```
+
+
+```{r}  
+#   Son örnek olarak if-else ifadelerinin R'da kullanmn göstermek için a³a§daki örnek ile devam ediyoruz.
+# f (x) =
+#   8>><>>:
+#   x2 x < −2
+#   x + 6 −2 ≤ x < 0
+#   −x + 6 0 ≤ x < 4
+#   px x ≥ 4
+```
+
+### ÖRNEK 04
+```{r}  
+  f <- function( x ) {
+  if(x<(-2)) {
+  x^2
+  } else if(x<0){
+  x+6
+  } else if (x<4){
+  -x+6
+  }
+  else {
+  sqrt ( x )
+  }
+  }
+  
+  c ( f (-4) , f (-1) , f ( 3 ) , f ( 9 ) )
+  # [ 1 ] 16 5 3 3
+```  
+  
+#  3.2 R'da Döngüler
+```{r}
+#Döngü içinde belirli sayda iterasyon yapmak için a³a§daki yapy kullanrz:
+   # f o r ( i in x ) { # i x d i z i s i i ç ind e k i de§ e r l e r i s  r a s  yla a l  r
+   # g e r e k l i i ³ l em l e r he r i i ç in yap  l  r
+   # }
+  
+  simPI <- function (n) {
+    y <- array ( 0 , n)
+    
+    nDaire <- 0 # d a i r e i ç in e dü ³ en notka say  s  n  tut a r
+    for ( i in 1 : n) { # i w i l l take i n t e g e r v a lu e s from 1 to n
+      u1 <- runif(1 , -1 ,1)
+      u2 <- runif(1 , -1 ,1)
+      y [ i ] <- sqrt ( ( u1-0)^2 + ( u2-0)^2) # o r i j i n e u zakl  §  tutuyo ruz
+      nDaire <- nDaire + ( y [ i ]<1) # mant  k s a l op e rat ö r l e r i uygulad  § m zda 0 ve 1§ e r l e r i dö ne r
+    }
+    
+    # simü l e ed i lm i ³ ka r enin d a i r en i n alan  na oran  g e r ç ek ka r enin alan  n g e r ç eka i r e n i n alan  na oran  n
+    # kareAlan=2∗ 2 , dai r eAlan=pi ∗ ( r ^2) r=1 dolay  s  yla tahminiDai reAlan /hminiKareAlan=daireAlan / KareAlan
+    # dolay  s  yla tahminiPi =(KareAlan∗ ( tahminiDai reAlan / tahminiKareAlan ) ) / r ^2
+    yaklasikPi=4* ( nDaire /n) /1^2
+    names ( yaklasikPi ) <- c ( "tahmini" )
+    return ( yaklasikPi ) # sonu ç dönmek i ç in r etu rn ( ) fonk siyonu da ku l l an  l a b i l i r
+  }
+  
+  simPI(1000)
+  
+  simPI(10000)
+  
+  simPI(100000)
+  # >   simPI (1000)
+  # tahmini 
+  # 3.096 
+  # >   
+  #   >   simPI (10000)
+  # tahmini 
+  # 3.1328 
+  # >   
+  #   >   simPI (100000)
+  # tahmini 
+  # 3.13724 
+  
+  system.time ( x <- simPI(100000) ) # s an iy e c in s ind en ko ³ma s ü r e s i
+  # > system.time ( x <- simPI(100000) )
+  # user  system elapsed 
+  # 0.31    0.02    0.33 
+  
+  simPI_apply <- function (n) {
+    rnd <- matrix ( runif (2*n, -1 ,1) , ncol=2)
+    y <- sqrt( apply( rnd^2 ,1 , sum ) )
+    nDaire <- sum (y<=1)
+    yaklasikPi=4* ( nDaire /n) /1^2
+    names (yaklasikPi ) <- c ( " tahmini " )
+    return ( yaklasikPi ) 
+  }
+  
+  simPI_apply (100000)
+  # tahmini  
+  # 3.14864 
+  system.time ( x <- simPI_apply(100000) )
+  # > system.time ( x <- simPI_apply(100000) )
+  # user  system elapsed 
+  # 0.17    0.00    0.19   
+  
+  simPI_vektor <- function(n) {
+    #r a s s a l say  l a r  tek s e f e r d e n x 2 l i k b i r m a t r i s t e t u t a l m
+    rnd <- matrix ( runif (2*n, -1 ,1) , ncol =2) # 2∗n kadar r a s t g e l e say  ü r e t i p bunu s ütun (" c o l "umn)
+    # say  s  2 olan b i r mat ri s e da §  t  r
+    y <- sqrt( rnd[ ,1]^2+ rnd [ , 2 ] ^ 2 ) # apply y e r in e toplam  vekt ö r e l o l a r ak yapal m (i k i vekt ö r toplam  )
+    nDaire <- sum (y<=1)
+    yaklasikPi=4* ( nDaire /n) /1^2
+    return ( list ( tahminiPi=yaklasikPi , gercekPi=pi , DaireNoktaSayisi=nDaire ,ToplamNoktaSayisi=n) )
+    # sonucu b i r l i s t e h a l ind e dö n e b i l i r s i n i z
+  }
+  
+  # l i s t e h a l i n d e k i ç  kt  ya g ö z a t a l m
+  simPI_vektor(100000)
+  # $tahminiPi
+  # [1] 3.134
+  # 
+  # $gercekPi
+  # [1] 3.141593
+  # 
+  # $DaireNoktaSayisi
+  # [1] 78350
+  # 
+  # $ToplamNoktaSayisi
+  # [1] 1e+05
+  
+  snc=simPI_vektor(100000)
+  snc$tahminiPi
+  # [1] 3.14128
+  
+  system.time ( x <- simPI_vektor(100000) )
+  # user  system elapsed 
+  # 0.01    0.00    0.01 
+  
+  # whil e ( ko ³ ul ) { # ko ³ ul sa § land  §  sü r e c e döngüye devam et
+  # g e r e k l i i ³ l e m l e r i g e r ç e k l e ³ t i r
+  # }
+  
+  # kök bulma fonk siyonu
+  # b e l i r l i b i r a r a l  kt ak i sü r e k l i b i r fonk siyonun kökünü bulu r
+  # sü r e k l i f onk siy on x e k s e n i n i k e s m e l i d i r f ak at dik k e sm em elidi r
+  kokbul <- function (
+    f, # s  f  r de§ e r i i ç in çözü l e c e k sü r e k l i f onk siy on
+    interval , # tek çözümün a ranaca §  a r a l  k (2 elemanl  b i r d i z i )
+    errbound=1e-12, # i z i n v e r i l e n maksimum hata
+    trace=FALSE # t r a c e do§ru yap  l  r sa , yak  nsanan say  d i z i l e r i ekrana yaz  l  r
+  ) {
+    a <- interval[ 1 ]
+    b <- interval [ 2 ]
+    if ( f( a )* f (b) >0){
+      print ( " hata − çözüm yok ya da bi rd en f a z l a çözüm var " )
+    } else {
+      counter <- 0
+      res <- 0
+      err <- abs( a-b)
+      while ( err>errbound ) {
+        c <- ( a+b) /2
+        fc <- f ( c )
+        if ( f ( a )* fc >0){
+          a <- c
+        } else {
+          b <- c
+        }
+        err <- abs( a-b)
+        counter <- counter+1
+        res [ counter ] <- a
+      }
+      print ( c ( a , counter ) )
+      if ( trace ) {
+        print ( res )
+      }
+    }
+  }
+  
+  func <- function ( x ) {x^2-2}
+  int <- c ( 1 , 2 )
+  kokbul ( func , int )
+  # [ 1 ] 1.414214 40.000000
+  kokbul ( func , int , trace=TRUE)
+  # [1]  1.414214 40.000000
+  # [1] 1.000000 1.250000 1.375000 1.375000 1.406250 1.406250 1.414062 1.414062 1.414062 1.414062 1.414062
+  # [12] 1.414062 1.414185 1.414185 1.414185 1.414200 1.414207 1.414211 1.414213 1.414213 1.414213 1.414213
+  # [23] 1.414214 1.414214 1.414214 1.414214 1.414214 1.414214 1.414214 1.414214 1.414214 1.414214 1.414214
+  # [34] 1.414214 1.414214 1.414214 1.414214 1.414214 1.414214 1.414214
+``` 
+ 
+# Plotting Graphs in R
+```{r}
+  x <- seq ( -4 ,4 , length.out=51) # y e t e r i kadar uzun de§ i l
+  y <- dnorm( x )
+  plot (x , y ) # bo ³ n okt a l a r i ç e r en b i r g r a f i k ( ³ e k i l 1)
+
+  windows( ) # ³ e k l i y eni b i r p en c e r ed e gö stermek i s t e r s e n i z bu komut k u l l a n a b i l i r s i n i z
+  plot(x, y, type="l" ) # n okt a l a r  b i r l e ³ t i r i r " l " l i n e anlam  na g e l i y o r ( ³ e k i l 2)
+  
+  x <- seq( -4 ,4 , length.out=10001) # y e t e r i kadar uzun ( yo§un )
+  y <- dnorm ( x )
+  windows( )
+  plot(x, y, type="l" )
+```  
+  
+## Histograms
+```{r}
+  x <- rnorm( 1000000, 3 , 1.5 )
+  # o rtalama s  3 and std . sapmas  1 . 5 olan Normal da§  l  mdan
+  # ya rat  lm  ³ b i r 1000000 say  l  k b i r d i z i
+  
+  hist( x )
+  windows( )
+  hist (x , breaks=50)
+  
+  windows( )
+  hist(x , breaks=100)
+  
+  hist (x , breaks=100)
+  y <- seq( -5 ,10 , length.out=100001)
+  lines(y , dnorm (y , 3 , 1.5 )*200000)
+  
+  y <- seq( -5 ,10 , length.out=101)
+  windows( )
+  plot(y , dnorm(y , 3 , 1.5 ) )
+  lines (y , dnorm(y , 3 , 1.5 ) )
+  
+  windows( )
+  plot(y , dnorm(y , 3 , 1.5) , type="l" )
+  abline(v=4.5)
+```  
+  
+# Veri Okuma
+```{r}
+  x <- scan ( )
+  # ent e r tu ³ una ba st  ktan sonra , komut s at  r  nda "1:" gö r ünü r
+  # CTRL+V yaza rak kopyalanm  ³ v e r i y i yap  ³ t  r a b i l i r i z , 15 say  x i s i m l i d i z i d etu tu lu r
+  # son ra s  nda komut s at  r  nda "16:" gö r ünü r
+  # ent e r tu ³ una ba sa rak v e r i g i r i ³ i sonland  r  l  r ve 15 say  okunmu³ o lu r
+  # 1 : 3 25 94.9 12
+  # 5 : 547 32556 56
+  # 8 : 89 567
+  # 1 0 : 435 342.1
+  # 1 2 : 76.5 983.2
+  # 1 4 : 0 343
+  # 1 6 :
+  # Read 15 item s
+  
+  x
+  # [ 1 ] 3 . 0 25.0 94.9 12.0 547.0 32556.0 56.0 89.0 567.0
+  # [ 1 0 ] 435.0 342.1 76.5 983.2 0 . 0 343.0
+  
+  # x <- read.table( file="data.txt " , header=TRUE) # already familiar with this
+  # x$boy
+  # x$kilo  
+  # x$yas
+  
+  ### No need for these now
+  # calisma <- getwd( ) # ³u anki ç a l  ³ma k l a s ö rünü cali sma de§ i ³ k enin e e ³ i t l e r
+  # print ( calisma )
+  # setwd ( "C: /" ) # ç a l  ³ma k l a s ö rünü C k l a s ö r
+  # getwd ( ) # ekranda ç a l  ³ma k l a s ö rünü bas
+  # setwd ( "C:\\Programlar" ) # ç a l  ³ma k l a s ö rü
+  # gettwd( ) # ekranda ç a l  ³ma k l a s ö rünü b
+  
+  print( " hata " )
+  
+  x = 1:5
+  print(x)
+```  
+  
+# Help
+  
+## R's help shorcut
+```{r}  
+  ?det
+  ?sample
+  ?sin
+  ?cbind
+```  
+  
+```{r}  
+apropos("norm")  
+# [1] ".rs.normalizeKeyboardShortcut"    ".rs.normalizePath"               
+# [3] ".rs.validateAndNormalizeEncoding" "dlnorm"                          
+# [5] "dnorm"                            "norm"                            
+# [7] "normalizePath"                    "plnorm"                          
+# [9] "pnorm"                            "qlnorm"                          
+# [11] "qnorm"                            "qqnorm"                          
+# [13] "rlnorm"                           "rnorm"
+
+
+objects() 
+# [1] "a"                     "b"                     "birimMaliyet"          "calisma"              
+# [5] "cevre_alan"            "coora"                 "coorb"                 "coorc"                
+# [9] "csv_data"              "f"                     "first_plot"            "func"                 
+# [13] "ind"                   "ind3"                  "int"                   "kokbul"               
+# [17] "rds_data"              "sabitMaliyet"          "simPI"                 "simPI_apply"          
+# [21] "simPI_vektor"          "siparisMaliyetListesi" "siparisMiktari"        "snc"                  
+# [25] "toplamMaliyet"         "tsv_data"              "txt_data"              "ucgen"                
+# [29] "UNdata"                "v1"                    "v2"                    "vec"                  
+# [33] "veri"                  "x"                     "xinv"                  "xls_data"             
+# [37] "y"                     "y1"                    "y2"                    "y3"                   
+# [41] "y4"                    "y5"                    "y6"                    "y7" 
+```  
