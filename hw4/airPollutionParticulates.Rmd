@@ -8,6 +8,7 @@ output: html_document
 # Reading in the 1999 data
 ```{r setup, include=FALSE}
 # First, set the current working directory to a desired directory
+getwd()
 setwd("B:/Akad/B5/BigData/hw4")
 
 # We skip some commented lines in the beginning of the file and initially we do not read the header data.
