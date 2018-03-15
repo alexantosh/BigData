@@ -1,0 +1,18 @@
+---
+title: "Messing Around With Pseudo Facebook Data"
+author: "Alex Gunagwera"
+date: "8 Mart 2018"
+output: html_document
+---
+
+# Playing Around With Pseudo Facebook Data
+
+## Reading In the Data
+```{r}
+getwd()
+list.files()
+pf <- read.csv("pseudo_facebook.tsv", sep = "\t")
+names(pf)
+```
+
+## 
