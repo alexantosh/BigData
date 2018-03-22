@@ -65,6 +65,7 @@ library(ggplot2)
 first_plot = ggplot(data = UNdata, aes(x=Year, y=Rate))
 first_plot + geom_bar(stat="identity") #bar graph
 first_plot + geom_point(stat = "identity") #point graph ... You get the idea
+#first_plot + geom_rect(stat = "identity") #point graph ... You get the idea
 
 # the filters
 # filter1<- UNdata %>%

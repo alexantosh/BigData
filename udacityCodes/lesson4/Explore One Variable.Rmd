@@ -46,7 +46,7 @@ qplot(x = price, data = diamonds, binwidth = 10) +
 ### Lets Play some more
 ```{r}
 qplot(x = price, data = diamonds, binwidth = 10) +
-  scale_x_continuous(xlim() = c(0, 10000),
+  scale_x_continuous(limits = c(0, 10000),
                      breaks = seq(0, 10000, 1))
 ```
 ### Lets get a bit serious now and get some meaningful data
@@ -145,7 +145,7 @@ IQR(subset(diamonds, color == "J")$price)
 # Investigate the price per carat of diamonds across
 # the different colors of diamonds using boxplots.
 qplot(x=color,y = price/carat,data = diamonds,
-      geom = "boxplot")
+      geom = "boxplot", colors())
 ```
 ## Frequency Polygon
 
