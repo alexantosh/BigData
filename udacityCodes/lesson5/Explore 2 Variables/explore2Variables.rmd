@@ -243,7 +243,7 @@ Notes:
 ```{r Correlation}
 # correlation between age and friend count
 cor.test(pf$age, pf$friend_count, 
-         conf.level = 0.95)
+         conf.level = 0.95, method = 'pearson')
 
 ## Alternatively
 # with(pf, cor.test(age, friend_count, method = 'pearson'))
@@ -316,6 +316,7 @@ Notes:
 + correlations can be deceptive
 + plotting data is generally the sure way
 ```{r More Caution With Correlation}
+#install.packages(alr3)
 library(alr3)
 ```
 
