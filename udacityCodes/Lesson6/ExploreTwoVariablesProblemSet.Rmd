@@ -1,0 +1,12 @@
+---
+title: 'Problem Set: Explore Two Variables'
+author: "Alex Gunagwera"
+date: "22 Mart 2018"
+output: html_document
+---
+
+```{r Price Vs X}
+
+```
+
+

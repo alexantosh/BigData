@@ -1,0 +1,233 @@
+---
+title: "Problem Set 2 Variable Exploration"
+author: "Alex Gunagwera"
+date: "24 Mart 2018"
+output: html_document
+---
+
+ProblemSet: Explore Two Variables
+========================================================
+
+### Welcome
+Notes: Let's breeze through this 
+
+***
+### ggpairs Function
+Notes:
+
+```{r ggpairs Function}
+# install these if necessary
+# install.packages('GGally')
+# install.packages('scales')
+# install.packages('memisc')
+# install.packages('lattice')
+# install.packages('MASS')
+# install.packages('car')
+# install.packages('reshape')
+# install.packages('plyr')
+
+# load the ggplot graphics package and the others
+library(ggplot2)
+library(GGally)
+library(scales)
+library(memisc)
+```
+
+
+
+### Scatterplot Review
+
+```{r Scatterplot Review}
+db = read.csv('diamondsbig.csv')
+d = diamonds
+summary(db)
+library(ggplot2)
+
+# Now the scatter plot
+ggplot(aes(x, price), data = db) +
+  geom_point()
+
+```
+
++ Ignoring the outliers, price increases exponentially with x
++ the scatter plot is definitely overplotted
+***
+
+### Correlations
+```{r correlation between price and y}
+structure(rapply(cor.test(d$x, d$price),function(x) if(is.numeric(x)) round(x,2) else x,how="replace"),
+  class="htest")
+```
+```{r correlation between price and y - 2}
+structure(rapply(cor.test(d$y, d$price),function(x) if(is.numeric(x)) round(x,2) else x,how="replace"),
+  class="htest")
+```
+```{r correlation between price and z}
+structure(rapply(cor.test(d$z, d$price),function(x) if(is.numeric(x)) round(x,2) else x,how="replace"),
+  class="htest")
+```
+### Simple Scatter of price vs depth
+```{r Simple Scatter of price vs depth }
+ggplot(aes(round(depth / 2)*2, price), data = d) +
+  geom_point(alpha = 1/100)
+```
+### Price Vs Depth correlation
+```{r depth vs price}
+structure(rapply(cor.test(d$depth, d$price),function(x) if(is.numeric(x)) round(x,2) else x,how="replace"),
+  class="htest")
+
+```
+
+### Price and Carat Relationship
+Response:
+Omit the top 1% of each. Draw a scatter plot
+```{r omit the top 1 percent }
+ggplot(aes(carat, price), data = diamonds) + 
+  geom_point() + 
+  xlim(0, quantile(d$carat, 0.99)) + # for the upper bound on the x axis
+  ylim(0, quantile(d$price, 0.99)) 
+
+```
+
+```{r volume of a diamond }
+## create volume into diamond
+d$volume = d$x * d$y * d$z
+
+# Now create a scatter plot of price Vs volume
+ggplot(aes(volume, price), data = d) +
+  geom_point()
+```
+### Correlation of price vs Volume (ignore 0 or >= 800)
+```{r Price Vs Volume correlation | Correlations on subsets}
+# 1. first create a subset with desired conditions
+subdiamonds = subset(d, (d$volume != 0) & (d$volume < 800)) 
+
+# 2. calculate desired correlation
+cor.test(subdiamonds$price, subdiamonds$volume)             
+
+```
+### Adjustments on the price vs volume scatter plot
+```{r Adjustments - price vs. volume }
+# 1. first create a subset with desired conditions
+subdiamonds = subset(d, (d$volume != 0) & (d$volume < 800))
+
+ggplot(aes(volume, price), data = subdiamonds) +
+  geom_point(alpha = 1/50) + 
+  geom_smooth(method = 'lm')
+```
+
+***
+
+### Mean price by clarity
+```{r Mean Price by clarity}
+suppressMessages(library(ggplot2))
+suppressMessages(library(dplyr))
+diamondsByClarity = subdiamonds %>%
+  group_by(clarity) %>%
+  summarise(
+    mean_price   = mean(price),
+    median_price = median(price),
+    min_price    = min(price),
+    max_price    = max(price),
+    n            = n()  
+  )
+
+suppressMessages(summary(diamondsByClarity, 6))
+```
+
+### Bar Charts of Mean price
+#### In this task, we are required to write additional code to create two bar plots
+#### on one output image using the grid.arrange() function from the package
+#### gridExtra.
+```{r mean price by clarity bar charts}
+
+diamonds_by_clarity = group_by(diamonds, clarity)
+diamonds_mp_by_clarity = summarise(diamonds_by_clarity, mean_price = mean(price))
+
+diamonds_by_color = group_by(diamonds, color)
+diamonds_mp_by_color = summarise(diamonds_by_color, mean_price = mean(price))
+
+# 1. make first barchart
+b1 = ggplot(aes(clarity, mean_price), data = diamonds_mp_by_clarity) + 
+geom_bar(stat = 'identity')
+
+# 2. make second barchart
+b2 = ggplot(aes(color, mean_price), data = diamonds_mp_by_color) + 
+geom_bar(stat = 'identity')
+
+library(gridExtra)
+grid.arrange(b1, b2, ncol = 1)
+```
+
+### Mean price across cut
+```{r mean price by cut bar charts}
+
+diamonds_by_clarity = group_by(diamonds, clarity)
+diamonds_mp_by_clarity = summarise(diamonds_by_clarity, mean_price = mean(price))
+
+diamonds_by_color = group_by(diamonds, color)
+diamonds_mp_by_color = summarise(diamonds_by_color, mean_price = mean(price))
+
+# 1. make first barchart
+b1 = ggplot(aes(clarity, mean_price), data = diamonds_mp_by_clarity) + 
+geom_bar(stat = 'identity')
+
+# 2. make second barchart
+b2 = ggplot(aes(color, mean_price), data = diamonds_mp_by_color) + 
+geom_bar(stat = 'identity')
+
+# 3. examine by cut
+diamonds_by_cut = group_by(diamonds, cut)
+diamonds_mp_by_cut = summarise(diamonds_by_cut, mean_price = mean(price))
+
+# 4. make third barchart
+b3 = ggplot(aes(cut, mean_price), data = diamonds_mp_by_cut) + 
+geom_bar(stat = 'identity')
+
+library(gridExtra)
+grid.arrange(b1, b2, b3, ncol = 1)
+```
+
+# Gapminder Revisted
+```{r}
+library('xlsx', quietly = TRUE)
+library(reshape2)
+
+gapminder_employment_data = read.xlsx('indicator_t above15employ.xlsx', sheetIndex = 1)
+
+summary(gapminder_employment_data)
+
+```
+
+```{r more graphs}
+
+p1 =ggplot(aes(x=gapminder_employment_data$X2005), data = gapminder_employment_data) + geom_histogram()+ xlab('Employment to population %') + ylab('Number of countries') + ggtitle('Year 2005')
+
+p2 = ggplot(aes(x=gapminder_employment_data$X2006), data = gapminder_employment_data) + geom_histogram() + xlab('Employment to population %') + ylab('Number of countries') + ggtitle('Year 2006')
+
+p3 = ggplot(aes(x=gapminder_employment_data$X2007), data = gapminder_employment_data) + geom_histogram() + xlab('Employment to population %') + ylab('Number of countries') + ggtitle('Year 2007')
+
+
+library(gridExtra)
+ grid.arrange(p1, p2, p3, ncol = 3)
+```
+## Applying a few layers onto the plots
+```{r more graphs cont}
+
+p1 =ggplot(aes(x=gapminder_employment_data$X2005), data = gapminder_employment_data) + geom_histogram() + xlab('Employment to population %') + ylab('Number of countries') + ggtitle('Year 2005') + 
+  scale_y_log10()
+
+p2 = ggplot(aes(x=gapminder_employment_data$X2006), data = gapminder_employment_data) + geom_histogram() + xlab('Employment to population %') + ylab('Number of countries') + ggtitle('Year 2006')+ 
+  scale_y_log10()
+
+p3 = ggplot(aes(x=gapminder_employment_data$X2007), data = gapminder_employment_data) + geom_histogram() + xlab('Employment to population %') + ylab('Number of countries') + ggtitle('Year 2007')+ 
+  scale_y_log10()
+
+
+library(gridExtra)
+ grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+
+
+
