@@ -1,0 +1,31 @@
+foreigners {alexg}
+
+There are currently over 5000 foreigners in Istanbul Turkey
+
+Description
+
+Datasets containing information about over 90000 foreign students in Turkey
+
+Format
+Excel files combining data each with over 5000 rows and 7 variables:
+
+UnIversIty:
+	The university in which given students study. These include Istanbul, iszu, isu .... 
+	The total number of universities, however, changes over the years.
+
+Type: 
+	The Type of University where the students are. Can be:
+		DEVLET, VAKIF or VAKIF MYO
+
+CIty:	
+	The city in which the given university is located
+
+NatIonalIty:
+	The given nationality of a student or country where they come from
+
+Male: 
+	Total number of male students
+Female: 
+	Total number of female students
+Total: 
+	The total of both male and female students

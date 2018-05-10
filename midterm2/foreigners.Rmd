@@ -1,0 +1,619 @@
+---
+output: html_document
+---
+Trends in Student Number over time by Gunagwera Alex
+========================================================
+
+```{r message=FALSE, warning=FALSE, packages}
+# Load all of the packages that you end up using
+# in your analysis in this code chunk.
+
+# Notice that the parameter "echo" was set to FALSE for this code chunk.
+# This prevents the code from displaying in the knitted HTML output.
+# You should set echo=FALSE for all code chunks in your file.
+
+library(ggplot2)
+
+```
+
+# Load Data
+```{r echo=FALSE, Load_the_Data}
+library('xlsx', quietly = TRUE)
+library(reshape2)
+
+# Load the Data
+education_amount_acikli = read.xlsx('data/amount_of_education.xls', startRow = 6, rows=17, sheetIndex = 1)
+education_statistics = read.xlsx('data/educationstats.xls', sheetIndex = 1)
+foreign1314 = read.xlsx('data/foreign1314.xls', sheetIndex = 1)
+foreign1415 = read.xlsx('data/foreign1415.xls', sheetIndex = 1)
+foreign1516 = read.xlsx('data/foreign1516.xls', sheetIndex = 1)
+foreign1617 = read.xlsx('data/foreign1617.xls', sheetIndex = 1)
+# structure(foreign1314)
+```
+
+# Univariate Plots Section
+```{r Univariate_Plots ForeignStudents Per City}
+par(cex=1.5)
+f1314Totaless = subset(foreign1314, (Total < 10000))
+f1415Totaless = subset(foreign1415, (Total < 15000))
+f1516Totaless = subset(foreign1516, (Total < 20000))
+f1617Totaless = subset(foreign1617, (Total < 20000))
+
+ggplot(aes(CIty, Total), data = f1314Totaless) + 
+  geom_histogram(stat = 'identity') + 
+  theme(axis.text.x = element_text(angle = 90))
+```
+# Univariate Plots Section
+```{r ForeignStudents Vs Nationality}
+ggplot(aes(NatIonalIty, Total), data = f1314Totaless) + 
+  geom_histogram(stat = 'identity') + 
+  coord_flip()
+```
+## Foreign Students Vs University Type
+```{r ForeignStudents Vs University Type}
+ggplot(aes(foreign1314$Type, foreign1314$Total), data = subset(foreign1314, !is.na(foreign1314$Type))) + 
+  geom_histogram(stat = 'identity')
+```
+# Univariate Plots Section
+```{r  City Vs Uganda}
+ugandans1314 = subset(foreign1314, foreign1314$NatIonalIty=="UGANDA")
+ugandans1415 = subset(foreign1415, foreign1415$NatIonalIty=="UGANDA")
+ugandans1516 = subset(foreign1516, foreign1516$NatIonalIty=="UGANDA ")
+ugandans1617 = subset(foreign1617, foreign1617$NatIonalIty=="UGANDA ")
+iran1617 = subset(foreign1617, foreign1617$NatIonalIty=="ARNAVUTLUK ")
+iran1314 = subset(foreign1314, foreign1314$NatIonalIty=="ARNAVUTLUK")
+ggplot(aes(ugandans1314$CIty, ugandans1314$Total), data = ugandans1314) +
+  geom_histogram(stat = 'identity') +
+  theme(axis.text.x = element_text(angle = 90))
+
+head(iran1617, 10)
+
+```
+
+## Ugandans' distribution in 2013-2014
+```{r}
+ggplot(aes(x = ugandans1314$Total), data = ugandans1314) +
+  geom_histogram() +
+  scale_x_continuous() +
+  facet_wrap(~ugandans1314$CIty)+
+  theme(axis.text.x = element_text(angle = 90)) +
+  ggtitle("Ugandans' distribution in 2013-2014")
+```
+
+## Universities They Joined
+```{r ugandans1314}
+ggplot(aes(x = ugandans1314$Total), data = ugandans1314) +
+  geom_histogram() +
+  scale_x_continuous() +
+  facet_wrap(~ugandans1314$UnIversIty) + 
+  ggtitle("Their specific universities in 2013-2014")
+```
+###  For the year 2014-2015
+```{r ugandans1415}
+ggplot(aes(x = ugandans1415$Total), data = ugandans1415) +
+  geom_histogram() +
+  scale_x_continuous() +
+  facet_wrap(~ugandans1415$UnIversIty)+ 
+  ggtitle("Their specific universities in 2014-2015 - thats me in ISZU :)")
+```
+
+### Their universities in 2016-2017
+```{r ugandans1617}
+ggplot(aes(x = ugandans1617$Total), data = ugandans1617) +
+  geom_histogram() +
+  facet_wrap(~ugandans1617$UnIversIty)+ 
+  ggtitle("Their specific universities in 2016-2017")
+```
+
+## Boxplot on the City and Total Foreigners Year: 2013 - 2014
+```{r}
+qplot(x = CIty , y = Total , data = f1314Totaless,
+  geom = 'boxplot' , main = 'Boxplot on the City and Total Foreigners Year: 2013 - 2014')+
+  scale_y_continuous(limits = c(0,10),breaks = seq(0,15,1))+
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+## Boxplot on the City and Total Ugandans : 2013 - 2014
+```{r}
+qplot(x = CIty , y = Total , data = ugandans1314,
+  geom = 'boxplot' , main = 'Boxplot on the City and Total Ugandans : 2013 - 2014')+
+  scale_y_continuous()+
+  theme(axis.text.x = element_text(angle = 90))
+```
+## Those from Iran 2013-2014
+```{r}
+ggplot(aes(iran1314$CIty, iran1314$Total), data = iran1314) +
+  geom_histogram(stat = 'identity') +
+  theme(axis.text.x = element_text(angle = 90))
+
+head(iran1314, 10)
+```
+
+### Boxplot on the City and Total Foreigners Year: 2014-2015
+```{r}
+qplot(x = CIty , y = Total , data = f1415Totaless,
+  geom = 'boxplot' , main = 'Boxplot on the City and Total Foreigners Year: 2014-2015')+
+  scale_y_continuous(limits = c(0,25))+
+  theme(axis.text.x = element_text(angle = 90))
+```
+```{r}
+qplot(x = CIty , y = Total , data = f1516Totaless,
+  geom = 'boxplot' , main = 'Boxplot on the City and Total Foreigners Year: 2015-2016')+
+  scale_y_continuous(limits = c(0,25))+
+  theme(axis.text.x = element_text(angle = 90))
+```
+```{r}
+qplot(x = CIty , y = Total , data = f1617Totaless,
+  geom = 'boxplot' , main = 'Boxplot on the City and Total Foreigners Year: 2016-2017')+
+  scale_y_continuous(limits = c(0,25))+
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+
+# Univariate Analysis
+
+### What is the structure of your dataset?
+It shows the distribution and variation of foreign university students in Turkey
+
+### What is/are the main feature(s) of interest in your dataset?
+Nationality - Countries where the students come from
+Universities - in which they study
+Total - Total number of students based in the above mentioned features
+
+### What other features in the dataset do you think will help support your investigation into your feature(s) of interest?
+Cities - where they study
+The type of universities they choose: whether government, private or other
+Time(In years) over which these students move to Turkey
+
+### Did you create any new variables from existing variables in the dataset?
+Ofcourse
+
+### Of the features you investigated, were there any unusual distributions? Did you perform any operations on the data to tidy, adjust, or change the form of the data? If so, why did you do this?
+Yes I did.
+To standardise the data for easier inverstigation and generalisation of results
+The original data had a lot of inconsistencies in many areas such as names 
+
+
+
+# Bivariate Plots Section
+```{r echo=FALSE, Bivariate_Plots}
+ggplot(aes(x = Female, y = Male), data = f1314Totaless) +
+  geom_point(alpha = 1/5) + #take alpha out for fun
+  ggtitle( "Scatter Plot of Male Vs Female foreigners in Turkey 2013-2014")
+```
+### Total Students in Cities 2013-2014
+```{r Bivariate_Plots cities}
+ggplot(aes(x = CIty, y = Total), data = f1314Totaless) +
+  geom_point(alpha = 1/10) +
+  ggtitle( "Point graph of Total Foreigners Vs City : 2013-2014") +
+  theme(axis.text.x = element_text(angle = 90))
+```
+# Comparisons
+```{r  Bivariate_Plots Something more interesting}
+total1314 <- max(foreign1314$Total)
+total1415 <- max(foreign1415$Total)
+totalf <- data.frame(Year=c("2013-2014", "2014-2015"),
+                Totals=c(total1314, total1415))
+ggplot(data=totalf, aes(x=Year, y=Totals)) +
+  geom_bar(stat="identity", color="blue", fill="white")+
+  ggtitle( "Comparison of no. foreigners in the years 2013-2014 and 2014-2015") 
+```
+```{r  Bivariate_Plots Something even more interesting}
+total1516 <- max(foreign1516$Total)
+total1617 <- max(foreign1617$Total)
+totalf <- data.frame(Year=c("2015-2016", "2016-2017"),
+                Totals=c(total1516, total1617))
+ggplot(data=totalf, aes(x=Year, y=Totals)) +
+  geom_bar(stat="identity", color="blue", fill="green")+
+  ggtitle( "Comparison of no. foreigners in the years 2015-2016 and 2016-2017") 
+```
+```{r Bivariate_Plots General overview}
+total1314 <- max(foreign1314$Total)
+total1415 <- max(foreign1415$Total)
+totalf <- data.frame(Year=c("2013-2014", "2014-2015", "2015-2016", "2016-2017"),
+                Totals=c(total1314, total1415, total1516, total1617))
+ggplot(data=totalf, aes(x=Year, y=Totals)) +
+  geom_bar(stat="identity", color="blue", fill="black")+
+  ggtitle( "Bar graph of Total Foreigners Vs Academic year") 
+```
+
+
+# Bivariate Analysis
+
+### Talk about some of the relationships you observed in this part of the investigation. How did the feature(s) of interest vary with other features in the dataset?
+More foreigners come to Turkey for education over time. The number of foreigners is steadily increasing
+
+### Did you observe any interesting relationships between the other features (not the main feature(s) of interest)?
+Foreigners mainly prefer to study in Istanbul, Antalya, Eskisehir and Ankara
+
+### What was the strongest relationship you found?
+The increasing number of foreingers over time
+
+
+
+# Multivariate Plots Section
+```{r  Multivariate_Plots lineplot female foreigners 2016-2017}
+library(ggplot2)
+ggplot(aes(x=Female, y=Total),
+    data = subset(f1617Totaless, (f1617Totaless$Total>250) )) + 
+    geom_line(aes(color = UnIversIty), stat = 'summary') 
+  
+```
+```{r Multivariate_Plots lineplot male foreigners 2016-2017}
+library(ggplot2)
+ggplot(aes(x=Male, y=Total),
+  data = subset(f1617Totaless, (f1617Totaless$Total>250) )) + 
+  geom_line(aes(color = UnIversIty), stat = 'summary') 
+```
+
+
+
+
+## Universities with more than 50 foreign students in Istanbul + Their average number of foreign students | 2013-2014
+```{r Multivariate_Plots}
+library(ggplot2)
+ggplot(aes(x=UnIversIty, y=Total),
+       data = subset(f1314Totaless, (f1314Totaless$CIty=="Istanbul")&(f1314Totaless$Total>50) )) + 
+  geom_boxplot() +
+  stat_summary(fun.y = mean, geom = 'point', shape = 4)+
+  theme(axis.text.x = element_text(angle = 90))+
+  ggtitle( "Universities with more than 50 foreigners in Istanbul : 2013-2014") 
+```
+
+### Total variables 
+```{r useful variables}
+# 2013 - 2014
+totalAll1314 = foreign1314$Total
+
+
+# 2014 - 2015
+totalAll1415 = foreign1415$Total
+
+# 2015 - 2016
+totalAll1516 = foreign1516$Total
+
+# 2016 - 2017
+totalAll1617 = foreign1617$Total
+
+totalsList = list(totalAll1314, totalAll1415, totalAll1516, totalAll1617)
+totalsnames = c("2013-2014", "2014-2015","2015-2016", "2016-2017")
+names(totalsList) = totalsnames
+
+summary(totalsList)
+```
+#### Scaling the totals
+```{r total1216 }
+library(ggplot2)
+library(gridExtra)
+p1 <- qplot(data = f1617Totaless, x = f1617Totaless$Total, binwidth = 100, fill = I ('#F79420')) +  
+        ggtitle("Total: 2016-2017")
+p2 <- qplot(data = f1617Totaless, x = Total, binwidth = 0.01, fill = I ('#F74420')) +
+        ggtitle("Total: 2016-2017 (logl0)") + scale_x_log10()
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+## Universities with more than 100 foreign students in Istanbul + Their average number of foreign students 2013-2014
+```{r  boxplot }
+library(ggplot2)
+ggplot(aes(x=UnIversIty, y=Total),
+       data = subset(f1314Totaless, (f1314Totaless$CIty=="Istanbul")&(f1314Totaless$Total>100) )) + 
+  geom_boxplot() +
+  stat_summary(fun.y = mean, geom = 'point', shape = 4)+
+  theme(axis.text.x = element_text(angle = 90))
+```
+## Universities with more than 250 foreign students  + Their average number of foreign students| 2013 - 2014
+```{r  Multivariate_Plots histogram}
+library(ggplot2)
+ggplot(aes(x=UnIversIty, y=Total),
+       data = subset(f1314Totaless, (f1314Totaless$Total>250) )) + 
+  geom_histogram(stat = 'identity') +
+  theme(axis.text.x = element_text(angle = 90)) 
+```
+## Countries with more than 250 foreign students  + Their average number of foreign students| 2013 - 2014 + Where they come from
+```{r Multivariate_Plots histogram 2}
+library(ggplot2)
+ggplot(aes(x=NatIonalIty, y=Total),
+       data = subset(f1314Totaless, (f1314Totaless$Total>250) )) + 
+  geom_histogram(stat = 'identity') +
+  ggtitle("Countries with more than 250 foreign students | 2013-2014 academic year")
+```
+## Countries with Most Students
+```{r Countries over all the four years }
+p1 = ggplot(aes(x=NatIonalIty, y=Total),
+       data = subset(f1314Totaless, (f1314Totaless$Total>250) )) + 
+  geom_histogram(stat = 'identity', color="orange", fill="blue") +
+  coord_flip() +
+  ggtitle("students>250 | 2013-2014")
+
+p2 = ggplot(aes(x=NatIonalIty, y=Total),
+       data = subset(f1415Totaless, (f1415Totaless$Total>250) )) + 
+  geom_histogram(stat = 'identity', color="blue", fill="orange") +
+  coord_flip()+
+  ggtitle("students>250 |2014-2015")
+
+p3 = ggplot(aes(x=NatIonalIty, y=Total),
+       data = subset(f1516Totaless, (f1516Totaless$Total>250) )) + 
+  geom_histogram(stat = 'identity', color="blue", fill="green") +
+  coord_flip() + #theme(axis.text.x = element_text(angle = 90))+
+  ggtitle("students>250 | 2015-2016")
+
+p4 = ggplot(aes(x=NatIonalIty, y=Total),
+       data = subset(f1617Totaless, (f1617Totaless$Total>250) )) + 
+  geom_histogram(stat = 'identity', color="black", fill="white") +
+  coord_flip() +
+  ggtitle("students>250|2016-2017")
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+## Universities with Most Students
+```{r Universities with more than 250 students over all the four years }
+p1 = ggplot(aes(x=UnIversIty, y=Total),
+       data = subset(f1314Totaless, (f1314Totaless$Total>500) )) + 
+  geom_histogram(stat = 'identity', color="orange", fill="blue") +
+  coord_flip() +
+  ggtitle("students>500 | 2013-2014")
+
+p2 = ggplot(aes(x=UnIversIty, y=Total),
+       data = subset(f1415Totaless, (f1415Totaless$Total>500) )) + 
+  geom_histogram(stat = 'identity', color="blue", fill="orange") +
+  coord_flip()+
+  ggtitle("students>500 | 2014-2015")
+
+p3 = ggplot(aes(x=UnIversIty, y=Total),
+       data = subset(f1516Totaless, (f1516Totaless$Total>500) )) + 
+  geom_histogram(stat = 'identity', color="blue", fill="green") +
+  coord_flip() + #theme(axis.text.x = element_text(angle = 90))+
+  ggtitle("students>500 | 2015-2016")
+
+p4 = ggplot(aes(x=UnIversIty, y=Total),
+       data = subset(f1617Totaless, (f1617Totaless$Total>500) )) + 
+  geom_histogram(stat = 'identity', color="black", fill="white") +
+  coord_flip() +
+  ggtitle("students>500 | 2016-2017")
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+# Relationships between main features
+```{r Sample of students over total in 2016-2017 }
+library(GGally)
+library(scales)
+set.seed(20022012)
+foreignerSample <- f1617Totaless[sample(1:length(f1617Totaless$Total), 50), ]
+ggpairs(foreignerSample, cardinality_threshold = 192, wrap = c(shape = I('.'), outlier.shape = I('.')))
+
+```
+# Ratio Plots
+```{r line Ratio plot 2016-2017}
+ggplot(data = f1617Totaless, aes(x = Total, y = Female / Male)) +
+  geom_line() +
+  geom_hline(yintercept = 2, alpha = 0.8, linetype = 5) +
+  ggtitle("Ratio plot 2016-2017 - original plot")
+```
+```{r line Ratio plot 2016-2017 logged}
+ggplot(data = f1617Totaless, aes(x = Total, y = Female / Male)) +
+  geom_line() +
+  scale_y_log10() +
+  geom_hline(yintercept = 0.3, alpha = 0.8, linetype = 5) +
+  ggtitle("Ratio plot 2016-2017")
+```
+
+## Original Ratio plots for all the for years
+```{r Ratio plots }
+p1 = ggplot(data = f1314Totaless, aes(x = Total, y = Female / Male)) +
+  geom_line() +
+  geom_hline(yintercept = 2, alpha = 0.8, linetype = 5) +
+  ggtitle("2013-2014")
+
+p2 = ggplot(data = f1415Totaless, aes(x = Total, y = Female / Male)) +
+  geom_line(colour = "green") +
+  geom_hline(yintercept = 2, alpha = 0.8, linetype = 5) +
+  ggtitle("2014-2015")
+
+p3 = ggplot(data = f1516Totaless, aes(x = Total, y = Female / Male)) +
+  geom_line(colour = "orange") +
+  geom_hline(yintercept = 2, alpha = 0.8, linetype = 5) +
+  ggtitle("2015-2016")
+
+p4 = ggplot(data = f1617Totaless, aes(x = Total, y = Female / Male)) +
+  geom_line(colour = "blue") +
+  geom_hline(yintercept = 2, alpha = 0.8, linetype = 5) +
+  ggtitle("2016-2017")
+
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+## Scaled log10 Ratio plots for all the for years
+```{r logged axes }
+p1 = ggplot(data = f1314Totaless, aes(x = Total, y = Female / Male)) +
+  geom_line() +
+  scale_y_log10()+
+  geom_hline(yintercept = 0.3, alpha = 0.8, linetype = 5) +
+  ggtitle("2013-2014")
+
+p2 = ggplot(data = f1415Totaless, aes(x = Total, y = Female / Male)) +
+  geom_line(colour = "green") +
+  scale_y_log10()+
+  geom_hline(yintercept = 0.3, alpha = 0.8, linetype = 5) +
+  ggtitle("2014-2015")
+
+p3 = ggplot(data = f1516Totaless, aes(x = Total, y = Female / Male)) +
+  geom_line(colour = "orange") +
+  scale_y_log10()+
+  geom_hline(yintercept = 0.3, alpha = 0.8, linetype = 5) +
+  ggtitle("2015-2016")
+
+p4 = ggplot(data = f1617Totaless, aes(x = Total, y = Female / Male)) +
+  geom_line(colour = "blue") +
+  scale_y_log10()+
+  geom_hline(yintercept = 0.3, alpha = 0.8, linetype = 5) +
+  ggtitle("2016-2017")
+
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+```{r}
+p1 = ggplot(aes(y = Female, x = Male, fill = Total),
+  data = f1314Totaless) +
+  geom_tile() +
+  scale_fill_gradientn(colours = colorRampPalette(c("blue", "green"))(10)) +
+  ggtitle("2013-2014")+
+  theme(axis.text.x = element_text(angle = 90))
+
+p2 = ggplot(aes(y = Female, x = Male, fill = Total),
+  data = f1516Totaless) +
+  geom_tile() +
+  scale_fill_gradientn(colours = colorRampPalette(c("blue", "green"))(10))+
+  ggtitle("2015-2016")+
+  theme(axis.text.x = element_text(angle = 90))
+
+p3 = ggplot(aes(y = Female, x = Male, fill = Total),
+  data = f1617Totaless) +
+  geom_tile() +
+  scale_fill_gradientn(colours = colorRampPalette(c("blue", "green"))(10))+
+  ggtitle("2016-2017")+
+  theme(axis.text.x = element_text(angle = 90))
+
+p4 = ggplot(aes(y = Female, x = Male, fill = Total),
+  data = f1415Totaless) +
+  geom_tile() +
+  scale_fill_gradientn(colours = colorRampPalette(c("blue", "green"))(10))+
+  ggtitle("2014-2015")+
+  theme(axis.text.x = element_text(angle = 90))
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+```{r}
+p1 =ggplot(data=f1617Totaless, aes(x=f1617Totaless$Female, y=f1617Totaless$Total, 
+                               colour=f1617Totaless$Total)) +
+  geom_line() +
+  geom_point()
+
+p2 =ggplot(data=f1617Totaless, aes(x=f1617Totaless$Male, y=f1617Totaless$Total, 
+                               colour=f1617Totaless$Total)) +
+  geom_line() +
+  geom_point()
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+# A linear modal to predict the total
+```{r Building the Linear Model}
+library(memisc)
+m1 <- lm(I(log(Total)) ~ I(NatIonalIty), data = f1617Totaless)
+m2 <- update(m1, ~ . + NatIonalIty)
+m3 <- update(m2, ~ . + CIty)
+m4 <- update(m3, ~ . + UnIversIty)
+m5 <- update(m4, ~ . + Female)
+m6 <- update(m5, ~ . + Male)
+m7 <- update(m6, ~ . + Type)
+
+mtable(m1, m2, m3, m4, m5, m6, m7)
+```
+# Prediction Total Ugandans
+```{r predict the total}
+ugandansInISZU = with(f1617Totaless, expand.grid(NatIonalIty = "UGANDA ", CIty = "Istanbul",
+                         UnIversIty = "Iszu ", Female=100, Male=20, Type="VAKIF"))
+
+
+modelEstimate = predict(m1, newdata = ugandansInISZU, interval="prediction", level = .95)
+modelEstimate
+```
+
+
+# Multivariate Analysis
+
+### Talk about some of the relationships you observed in this part of the investigation. Were there features that strengthened each other in terms of looking at your feature(s) of interest?
+Yes: Like finding the change of any given gender in a given city/university to determine how many foreigners join a given university
+
+### Were there any interesting or surprising interactions between features?
+Yes indeed. After a given time the number of foreigners from a country that had the most total foreigners in Turkey(Turkmenistan) was far surpassed by foreigners from another country (Syria) - almost double
+
+### OPTIONAL: Did you create any models with your dataset? Discuss the strengths and limitations of your model.
+A simple model to predict total foreigners coming to Turkey and joing a given university. 
+Main limitations include inflexibility over the parameters used during the prediction
+------
+
+# Final Plots and Summary
+
+### Plot One
+```{r Plot_One}
+p1 = ggplot(data=totalf, aes(x=Year, y=Totals)) +
+      geom_line(stat="identity", color="blue", fill="Orange")+
+      geom_point() +
+      ggtitle( "Total Foreigners Vs Academic year")+
+      theme(axis.text.x = element_text(angle = 90))
+
+p2 = ggplot(data=totalf, aes(x=Year, y=Totals)) +
+      geom_bar(stat="identity", color="blue", fill="Orange")+
+      geom_point() +
+      ggtitle( "Total Foreigners Vs Academic year")+
+      theme(axis.text.x = element_text(angle = 90))
+grid.arrange(p1, p2, ncol=2)
+```
+
+### Description One
+The total number of foreign students in Turkey is increasing linearly with time as shown above. 
+It is infact almost doubling between the academic years 2013-2014 and 2014-2015
+
+From this graph it can easily be seen that: 
+  The total number of foreign students in Turkey is increasing linearly with time.
+   It is expected to be well above 120,000 by the end of the 2017-2018 academic year
+
+### Plot Two
+```{r Plot_Two}
+p1 = ggplot(aes(x = NatIonalIty, y = Total),
+      data = subset(f1314Totaless, (f1314Totaless$Total > 250))) +
+      geom_histogram(stat = 'identity', color = "orange", fill = "blue") +
+      coord_flip() +
+      ggtitle("students>250 | 2013-2014")
+
+p2 = ggplot(aes(x=NatIonalIty, y=Total),
+      data = subset(f1415Totaless, (f1415Totaless$Total>250) )) + 
+      geom_histogram(stat = 'identity', color="blue", fill="orange") +
+      coord_flip()+
+      ggtitle("students>250 |2014-2015")
+
+p3 = ggplot(aes(x=NatIonalIty, y=Total),
+      data = subset(f1516Totaless, (f1516Totaless$Total>250) )) + 
+      geom_histogram(stat = 'identity', color="blue", fill="green") +
+      coord_flip() + #theme(axis.text.x = element_text(angle = 90))+
+      ggtitle("students>250 | 2015-2016")
+
+p4 = ggplot(aes(x=NatIonalIty, y=Total),
+      data = subset(f1617Totaless, (f1617Totaless$Total>250) )) + 
+      geom_histogram(stat = 'identity', color="black", fill="white") +
+      coord_flip() +
+      ggtitle("students>250|2016-2017")
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+
+### Description Two
+Turkmenistan and Azerbaycan had the biggest count of foreigners before 2016. But after that point, Syria had the biggest number of foreign students. Closely followed by Azerbaycan
+
+Almost doubling that of Turkmenistan - the third largest. 
+The shift in numbers is not surprising really after the recent geopolitical occurencies in Syrica and treaties signed with Azerbaycan.
+
+### Plot Three
+```{r Plot_Three}
+qplot(x = CIty , y = Total , data = f1617Totaless,
+  geom = 'boxplot' , main = 'Boxplot on the City and Total Foreigners Year: 2016-2017')+
+  scale_y_continuous(limits = c(0,25))+
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+### Description Three
+Most foreigners go to Istanbul, Ankara and Antalya for studies in Turkey.
+Antalya is well known for being of the most prominent tourist centers in Turkey and for its relatively good weather. 
+Istanbul is pretty much the cultural capital of Turkey whilst Ankara has the main e-distance-learning supporting and officially recognised university in the whole of Turkey. So that pretty much covers it all. 
+------
+
+# Reflection
+In this study an analysis was carried out on the variation of foreign student number over time in Turkey.
+A relation between the total number of foreign students and time was successfully found.
+Furthermore, the countries where they mainly come from, the cities in Turkey they go to and, consequently, the universities that they mainly/are likely to join.
+1. cleaning the data was a very time intensive task - took over 50% of the entire project time.
+2. Choosing the right graph types and functions for data display was no easy feat.
+3. The fact that new universities are founded over time made the analysis more difficult as it required creating of new datasets
+
